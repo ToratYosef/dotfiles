@@ -6,24 +6,24 @@ alias fdf='firebase deploy --only functions'
 # Git
 alias gs='git status'
 
-# GCA: push → rebase → final commit → push
+# GCA: commit current changes → pull --rebase → auto-commit → push
 alias gca='
-  echo "📤 Pushing current changes...";
+  echo "📦 Pre-rebase commit (if needed)...";
   git add . &&
   git commit -m "Temp pre-rebase commit" ||
   echo "No files to commit";
 
-  echo "🔄 Rebasing from remote...";
+  echo "🔄 Pulling with rebase...";
   git pull --rebase;
 
-  echo "📝 Finalizing auto-commit...";
+  echo "📝 Auto-commit (if needed)...";
   git add . &&
-  git commit -m "Auto-commit on $(date +'"'"'%A, %b %d @ %H:%M'"'"')" ||
+  git commit -m "Auto-commit on $(date +'%A, %b %d @ %H:%M')" ||
   echo "No new changes after rebase";
 
-  echo "🚀 Pushing final result...";
+  echo "🚀 Pushing...";
   git push
 '
 
-# Fix hidden unicode spaces
+# Fix hidden unicode NBSP spaces in a file
 alias fix='read -p "Enter file path: " file && sed -i "s/\xc2\xa0/ /g" "$file"'
